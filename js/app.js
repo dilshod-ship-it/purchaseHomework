@@ -32,7 +32,7 @@ purchasesAddButtonEl.onclick = evt => {
 	purchasesTotalEl.textContent = `Сумма: ${purchasesTotal}`;
 
 	purchasesSummEl.value = '';
-	purchasesCategoryEl = '';
+	purchasesCategoryEl.value = '';
 };
 
 
