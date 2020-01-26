@@ -9,8 +9,13 @@ rootEl.innerHTML = `
 	<label for="purchases-name-category">Категория</label>
 	<input id="purchases-name-category" data-id="purchases-category" placeholder="Категория" />
 	
-	<button id="add" data-action="add">Добавить</button>
+	<button data-action="add">Добавить</button>
 	</form>
+	<div>
+		<button data-action="no-sort">Нет сортировки</button>
+		<button data-action="sort-by-price-desc">По цене (по убыванию)</button>
+		<button data-action="sort-by-price-asc">По цене (по возрастанию)</button>
+	</div>
 	<ul data-id="purchases-list"></ul>
 	<div data-id="purchases-total"></div>
 `;
@@ -43,45 +48,59 @@ purchasesAddButtonEl.onclick = evt => {
 	const purchaseEl = document.createElement('li');
 	purchaseEl.innerHTML = `
 		Покупка на сумму ${value}, в категории ${category} 
-		<button data-action="remove">x</button>
+		<button data-action="remove">Удалить</button>
 		<button data-action="up">↑</button>
 		<button data-action="down">↓</button>
 	`;
 
-	purchaseEl._purchase = purchase; 
+	purchaseEl._purchase = purchase; // сами в Dom элемент добавляем собственное свойство
+	// _ - означает, что это свойтсво для служебных целей
+	// __ - вообще не трогай
 
 	const purchaseRemoveButtonEl = purchaseEl.querySelector('[data-action=remove]');
 	purchaseRemoveButtonEl.onclick = () => {
+		// purchaseEl.parentElement.removeChild(purchaseEl);
 
 		purchaseEl.remove();
 		purchasesTotal -= value;
 
-	}
-
-	const purchaseUpButtonEl = purchaseEl.querySelector('[data-action=up]');
-	purchaseUpButtonEl.onclick= () =>
-	{
-		if(purchaseEl == purchaseEl.parentNode.firstChild) {
-			purchasesListEl.insertBefore(purchaseEl, null);
-		} else {
-			purchasesListEl.insertBefore(purchaseEl, purchaseEl.previousSibling);
-		};
-	}
-
-	const purchaseDownButtonEl = purchaseEl.querySelector('[data-action=down]');
-	purchaseDownButtonEl.onclick = () => {
-		if(purchaseEl == purchaseEl.parentNode.lastChild) {
-			purchasesListEl.insertBefore(purchaseEl, null);
-		} else {
-			purchasesListEl.insertBefore(purchaseEl.nextSibling, purchaseEl);
-		};
+		purchasesTotalEl.textContent = `Сумма: ${purchasesTotal}`;
 	}
 
 	purchasesListEl.insertBefore(purchaseEl, purchasesListEl.firstElementChild);
 
 	purchasesSummEl.value = '';
 	purchasesCategoryEl.value = '';
-	purchasesSummEl.focus(); 
+	purchasesSummEl.focus(); //браузер настолько умный =, что с другого элемента фокус уберет
 
-	console.dir(purchasesListEl.children);
+	console.dir(purchasesListEl.children); // смотрим на детей
 };
+
+const noSortButtonEl = document.querySelector('[data-action=no-sort]');
+const sortByPriceDescButtonEl = document.querySelector('[data-action=sort-by-price-desc]');
+const sortByPriceAscButtonEl = document.querySelector('[data-action=sort-by-price-asc]');
+
+noSortButtonEl.onclick = () => {
+
+};
+
+sortByPriceDescButtonEl.onclick = () => {
+	// Ошибка: is not a function
+	// sort ->  Array.prototype
+	const purchases = Array.from(purchasesListEl.children);
+	purchases.sort((a,b) => - (a._purchase.amount - b._purchase.amount));
+	console.log(purchases);
+	for (const purchase of purchases) {
+		purchasesListEl.appendChild(purchase);
+	}
+};
+
+sortByPriceAscButtonEl.onclick = () => {
+
+	const purchases = Array.from(purchasesListEl.children);
+	purchases.sort((a,b) => a._purchase.amount - b._purchase.amount);
+	console.log(purchases);
+	for (const purchase of purchases) {
+		purchasesListEl.appendChild(purchase);
+	}
+}
