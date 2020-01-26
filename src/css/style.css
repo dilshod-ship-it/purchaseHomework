@@ -1,0 +1,44 @@
+* {
+	padding: 0px;
+	margin: 0px;
+}
+
+body {
+	padding-top: 10px;
+	margin-left: 10px;
+}
+
+label {
+
+    font-family: Arial;
+    color: black;
+    display: block;		`
+    font-size: 10px;
+}
+
+purchases-add-form {
+
+}
+
+#add {
+	
+  display: block;
+  box-sizing: border-box;
+  margin-top: 20px;
+  padding: 8px;
+  width: 80%;
+  max-width: 200px;
+  border-radius: 8px;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+#add:hover {
+	  background-color: #E6E6FA;
+}
+#purchases-name {
+	display: block;
+}
+
