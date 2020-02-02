@@ -68,14 +68,18 @@ purchasesAddButtonEl.onclick = evt => {
 		};
 	}
 
-	const purchaseDownButtonEl = purchaseEl.querySelector('[data-action=down]');
-	purchaseDownButtonEl.onclick = () => {
-		if(purchaseEl == purchaseEl.parentNode.lastChild) {
-			purchasesListEl.insertBefore(purchaseEl, null);
-		} else {
-			purchasesListEl.insertBefore(purchaseEl.nextSibling, purchaseEl);
-		};
-	}
+	 const purchaseDownButtonE1 = purchaseEl.querySelector('[data-action=down]');
+    purchaseDownButtonE1.onclick = () => 
+    {
+        if(purchaseEl == purchaseEl.parentNode.lastChild)
+        {
+            purchasesListEl.insertBefore(purchaseEl, purchasesListEl.firstElementChild);
+        }
+        else
+        {
+            purchasesListEl.insertBefore(purchaseEl.nextSibling,purchaseEl);
+        }
+    };
 
 	purchasesListEl.insertBefore(purchaseEl, purchasesListEl.firstElementChild);
 
